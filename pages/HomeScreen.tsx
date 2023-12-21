@@ -9,8 +9,6 @@ import {
 
 import { useEffect, useMemo, useState } from "react";
 
-import { supabase } from "../lib/supabaseClient";
-
 import { EntryWithCategory } from "../types/entry";
 
 import { Divider } from "../components/Divider";
@@ -20,23 +18,11 @@ import { PhIcon } from "../components/PhIcon";
 
 import { useGoToEntryDetail } from "../hooks/useRoute";
 
+import { useEntryStore } from "../stores/entry";
+
 export const HomeScreen = () => {
-  const [entryList, setEntryList] = useState<EntryWithCategory[]>([]);
-
-  const getEntryList = async () => {
-    try {
-      const { data } = await supabase
-        .from("entry")
-        .select(
-          `id,created_at,amount,type,property,remark,category (label,icon,id)`
-        );
-      console.log("🚀 ~ file: App.tsx:20 ~ getEntryList ~ data:", data);
-
-      setEntryList(data || []);
-    } catch (error) {
-      console.log("🚀 ~ file: App.tsx:12 ~ getEntryList ~ error:", error);
-    }
-  };
+  const entryList = useEntryStore((state) => state.entryList);
+  const getEntryList = useEntryStore((state) => state.getEntryList);
 
   const groupedEntryListByDate = useMemo(
     () =>
