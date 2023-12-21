@@ -11,14 +11,14 @@ export const StatisticPanel = () => {
   ]);
 
   return (
-    <View className="bg-cookie-200 rounded-xl px-6 py-3 flex items-stretch flex-row justify-between">
+    <View className="bg-cookie-200 rounded-xl px-6 py-3 flex items-stretch flex-row justify-between mt-4">
       {statisticOptions.map((statistic, index) => (
         <Fragment key={index}>
           <View>
-            <Text className="dark:text-neutral-600 text-base font-medium">
+            <Text className="text-neutral-600 text-base font-medium">
               {statistic.label}
             </Text>
-            <Text className="dark:text-neutral-950 text-xl font-bold">
+            <Text className="text-neutral-950 text-xl font-bold">
               {statistic.value}
             </Text>
           </View>
