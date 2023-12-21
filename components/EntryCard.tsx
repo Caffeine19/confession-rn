@@ -9,17 +9,19 @@ export interface EntryCardProps {
   entryList: EntryWithCategory[];
 }
 
-export const EntryCard: React.FC<EntryCardProps> = ({ date, entryList }) => {
+export const EntryCard: React.FC<EntryCardProps> = (props) => {
   return (
-    <View>
+    <View {...props}>
       <View className="space-y-2">
-        <Text className="text-neutral-100 text-lg font-normal">{date}</Text>
+        <Text className="text-neutral-100 text-lg font-normal">
+          {props.date}
+        </Text>
         <View className="rounded-lg bg-neutral-900 px-3">
-          {entryList.map((entry, index) => (
+          {props.entryList.map((entry, index) => (
             <View
               className={
                 "flex justify-between items-center flex-row  py-3 " +
-                (index === entryList.length - 1
+                (index === props.entryList.length - 1
                   ? ""
                   : "border-neutral-800 border-b")
               }
