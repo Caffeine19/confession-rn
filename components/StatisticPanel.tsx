@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Text, View } from "react-native";
 
 import { Divider } from "./Divider";
