@@ -1,16 +1,15 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView, Button, TouchableOpacity, Text } from "react-native";
 
 import { useEffect, useMemo, useState } from "react";
 
-import * as Icon from "phosphor-react-native";
-
 import { Divider } from "./components/Divider";
 import { StatisticPanel } from "./components/StatisticPanel";
+import { EntryCard } from "./components/EntryCard";
 
 import { supabase } from "./lib/supabaseClient";
 
 import { EntryWithCategory } from "./types/entry";
-import { Category } from "./types/category";
+import { PhIcon } from "./components/PhIcon";
 
 export default function App() {
   const [entryList, setEntryList] = useState<EntryWithCategory[]>([]);
@@ -53,7 +52,7 @@ export default function App() {
   }, []);
 
   return (
-    <View className="p-6 gap-y-4 bg-neutral-950 flex-1 flex flex-col pt-12 overflow-hidden">
+    <View className="px-6  pb-4 gap-y-3 bg-neutral-950 flex-1 flex flex-col pt-12 overflow-hidden items-stretch">
       <StatisticPanel></StatisticPanel>
       <Divider type="primary"></Divider>
 
@@ -62,80 +61,19 @@ export default function App() {
           <EntryCard key={date} entryList={entryList} date={date}></EntryCard>
         ))}
       </ScrollView>
-    </View>
-  );
-}
 
-interface EntryCardProps {
-  date: string;
-  entryList: EntryWithCategory[];
-}
+      <Divider type="primary"></Divider>
 
-const EntryCard: React.FC<EntryCardProps> = ({ date, entryList }) => {
-  return (
-    <View>
-      <View className="space-y-2">
-        <Text className="text-neutral-100 text-lg font-normal">{date}</Text>
-        <View className="rounded-lg bg-neutral-900">
-          {entryList.map((entry, index) => (
-            <View
-              className={
-                "flex justify-between items-center flex-row  py-3 px-3 " +
-                (index === entryList.length - 1
-                  ? ""
-                  : "border-neutral-800 border-b")
-              }
-              key={entry.id}
-            >
-              <View className="flex flex-row items-center gap-2">
-                <View className="rounded-full bg-cookie-200 flex flex-row items-center justify-center p-1">
-                  <PhIcon
-                    name={convertIconNameFromIconLabel(
-                      entry.category?.icon || ""
-                    )}
-                  ></PhIcon>
-                </View>
-                <Text className="text-neutral-100 text-lg font-normal">
-                  {entry.category?.label}
-                </Text>
-              </View>
-
-              <Text
-                className={
-                  (entry.type === "output"
-                    ? "text-guilty-400"
-                    : "text-yokatta-300") +
-                  " " +
-                  "text-base font-normal"
-                }
-              >
-                {(entry.type === "output" ? "-" : "+") +
-                  (entry.amount / 100).toFixed(2)}
-              </Text>
-            </View>
-          ))}
-        </View>
+      <View className="flex flex-col items-center">
+        <TouchableOpacity className="rounded-full bg-cookie-200 flex flex-row grow-0 w-fit shrink p-1">
+          <PhIcon
+            name="Plus"
+            color="#0a0a0a"
+            weight="regular"
+            size={24}
+          ></PhIcon>
+        </TouchableOpacity>
       </View>
     </View>
   );
-};
-
-const convertIconNameFromIconLabel = (str: Category["icon"]) => {
-  return str
-    .split("-")
-    .slice(1)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join("") as PhIconName;
-};
-
-type PhIconName = keyof typeof Icon;
-
-// 'ph-piggy-bank'=>'PiggyBank'
-const getIcon = (name: PhIconName) =>
-  Icon[name]({ size: 24, color: "#0a0a0a", weight: "fill" });
-
-interface PhIconProps {
-  name: PhIconName;
 }
-
-const PhIcon: React.FC<PhIconProps> = ({ name }) => getIcon(name);
