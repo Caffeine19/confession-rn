@@ -1,13 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
+
+import { Divider } from "./components/Divider";
+import { StatisticPanel } from "./components/StatisticPanel";
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-red-200">
-        Open up App.js to start working on your app
-      </Text>
-      <StatusBar style="auto" />
+    <View className="p-6 gap-4 bg-neutral-950 flex-1 flex flex-col pt-12">
+      <StatisticPanel></StatisticPanel>
+      <Divider type="primary"></Divider>
     </View>
   );
 }
